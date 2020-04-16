@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreativeZone", "CreativeZone\CreativeZone.csproj", "{9711FE85-45B9-49B2-81E9-B9E8CAAC2144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityBalancer", "CreativeZone\CommunityBalancer.csproj", "{9711FE85-45B9-49B2-81E9-B9E8CAAC2144}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

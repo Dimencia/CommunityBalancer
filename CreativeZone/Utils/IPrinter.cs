@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CreativeZone.Utils
+namespace CommunityBalancer.Utils
 {
     public interface IPrinter
     {

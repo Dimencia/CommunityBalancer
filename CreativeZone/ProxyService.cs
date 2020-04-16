@@ -7,14 +7,14 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using CreativeZone.Utils;
+using CommunityBalancer.Utils;
 using HarmonyLib;
 using ModestTree;
 using Service;
 using Service.Localization;
-using Log = CreativeZone.Utils.Log;
+using Log = CommunityBalancer.Utils.Log;
 
-namespace CreativeZone
+namespace CommunityBalancer
 {
     public class HarmonyReplaceAttribute : Attribute
     { }

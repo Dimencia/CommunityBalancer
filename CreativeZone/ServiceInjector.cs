@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using CreativeZone.Utils;
+using CommunityBalancer.Utils;
 using ECS;
 using HarmonyLib;
 using Service;
@@ -17,14 +17,15 @@ using Service.TaskService2;
 using Service.UserWorldTasks;
 using Zenject;
 
-namespace CreativeZone
+namespace CommunityBalancer
 {
     public class ServiceInjector
     {
         private static DiContainer Core => global::Kernel.Instance.Container;
         internal static Harmony Harmony;
 
-        private static bool Installed = false;
+        private static bool ServicesInstalled = false;
+        private static bool PatchesInstalled = false;
         private static bool WaitForDebugger = false;
 
         public static void InstallModServices()
@@ -33,46 +34,86 @@ namespace CreativeZone
             {
                 InstallModServicesImpl();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                FileLog.Log(e.ToString());
+                throw;
+            }
+        }
+
+        public static void InstallModPatches()
+        {
+            try
+            {
+                InstallModPatchesImpl();
+            }
+            catch (Exception e)
+            {
+                FileLog.Log(e.ToString());
                 throw;
             }
         }
 
         public static void InstallModServicesImpl()
         {
-            if(Installed)
+            if (ServicesInstalled)
                 return;
 
-            Installed = true;
+            ServicesInstalled = true;
 
-            while(WaitForDebugger && Debugger.IsAttached == false)
+            while (WaitForDebugger && Debugger.IsAttached == false)
             { }
 
             try
             {
-                using(Log.Debug.OpenScope("Installing services", string.Empty))
+
+                using (Log.Debug.OpenScope("Installing services", string.Empty))
                 {
-                    Install<IEntityManager, CreativeEntityManager>();
-                    Install<IStreetService, CreativeStreetService>();
-                    Install<IBuildingService, CreativeBuildingService>();
-                    Install<IAchievementService, CreativeAchievementService>();
-                    Install<ILocalizationService, CreativeLocalizationService>();
-                    Install<IUserWorldTasksService, CreativeUserWorldTaskService>();
+                    Install<IEntityManager, BalancedEntityManager>();
+                    Install<Service.Settler.ISettlerService, BalancedSettlerService>();
+                    Install<ITaskService, BalancedTaskService>();
                 }
 
-                Log.Default.PrintLine("Install completed");
+
+                FileLog.Log("Install completed");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Error.PrintLine("Exception during service install:");
-                Log.Error.PrintLine(e.ToString());
+                FileLog.Log("Exception during service install:");
+                FileLog.Log(e.ToString());
                 throw;
             }
         }
 
-        private static void Install<TService, TImpl>() 
+        public static void InstallModPatchesImpl()
+        {
+            if (PatchesInstalled)
+                return;
+
+            PatchesInstalled = true;
+
+            while (WaitForDebugger && Debugger.IsAttached == false)
+            { }
+
+            try
+            {
+
+                FileLog.Log("Installing patches");
+
+                Harmony.DEBUG = true;
+                Harmony.PatchAll();
+
+                FileLog.Log("Install completed");
+            }
+            catch (Exception e)
+            {
+                FileLog.Log("Exception during service install:");
+                FileLog.Log(e.ToString());
+                throw;
+            }
+        }
+
+        private static void Install<TService, TImpl>()
         {
             using (Log.Debug.OpenScope($"Installing {typeof(TImpl)} -> {typeof(TService)} ... ", "Done"))
             {
@@ -81,5 +122,6 @@ namespace CreativeZone
                 installMethod.Invoke(null, new object[] { Harmony, vanilla, typeof(TService) });
             }
         }
+
     }
 }

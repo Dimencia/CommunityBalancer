@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ModestTree;
 
-namespace CreativeZone.Utils
+namespace CommunityBalancer.Utils
 {
     static class DelegateCreator
     {

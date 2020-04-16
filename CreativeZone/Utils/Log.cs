@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
 
-namespace CreativeZone.Utils
+namespace CommunityBalancer.Utils
 {
     static class Log
     {
@@ -14,9 +11,9 @@ namespace CreativeZone.Utils
 
         static Log()
         {
-            var defaultFile = new FilePrinter("CreativeZone.log");
-            var debugFile = new FilePrinter("CreativeZone_Debug.log");
-            var errorFile = new FilePrinter("CreativeZone_Error.log");
+            var defaultFile = new FilePrinter("CommunityBalancer.log");
+            var debugFile = new FilePrinter("CommunityBalancer_Debug.log");
+            var errorFile = new FilePrinter("CommunityBalancer_Error.log");
 
             Debug = debugFile;
             Default = CompoundPrinter.Make(defaultFile, debugFile);
